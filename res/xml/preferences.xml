@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android">
+    <PreferenceCategory
+            android:title="Server settings">
+        <EditTextPreference
+                android:name="Host name"
+                android:summary="Enter host name or IP address of the server"
+                android:defaultValue="195.93.238.199"
+                android:title="Host name"
+                android:key="hostNamePref" />
+        <EditTextPreference
+                android:name="Port"
+                android:summary="Enter TCP port of the server"
+                android:defaultValue="9001"
+                android:title="Port"
+                android:key="portPref" />
+        <ListPreference
+                android:title="Poll frequency"
+                android:summary="How often device position will be checked"
+                android:key="frequencyPref"
+                android:defaultValue="0"
+                android:entries="@array/frequencyList"
+                android:entryValues="@array/frequencyValueList" />
+    </PreferenceCategory>
+
+    <PreferenceCategory
+            android:title="Device settings">
+        <EditTextPreference
+                android:name="IMEI"
+                android:summary="Enter IMEI code of the device"
+                android:defaultValue=""
+                android:title="IMEI"
+                android:key="imeiPref" />
+<!--        <RingtonePreference
+                android:name="Ringtone Preference"
+                android:summary="Select a ringtone"
+                android:title="Ringtones"
+                android:key="ringtonePref" />
+        <PreferenceScreen
+                android:key="SecondPrefScreen"
+                android:title="Second PreferenceScreen"
+                android:summary="This is a second PreferenceScreen">
+            <EditTextPreference
+                    android:name="An other EditText Preference"
+                    android:summary="This is a preference in the second PreferenceScreen"
+                    android:title="Edit text"
+                    android:key="SecondEditTextPref" />
+        </PreferenceScreen>
+        <Preference
+                android:title="Custom Preference"
+                android:summary="This works almost like a button"
+                android:key="customPref" />-->
+    </PreferenceCategory>
+</PreferenceScreen>

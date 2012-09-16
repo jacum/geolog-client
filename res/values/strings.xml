@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">Geolog</string>
+    <string name="action_label_preferences">Preferences</string>
+    <string name="action_label_trips">Recorded trips</string>
+    <string name="action_label_refresh">Refresh</string>
+    <string name="minutes">minutes</string>
+    <string name="server_is_polled_each">Server is polled each</string>
+</resources>
