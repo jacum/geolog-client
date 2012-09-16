@@ -102,4 +102,17 @@ public class Position implements Externalizable {
     private String safeUtf(String v) {
         return v == null ? "" : v;
     }
+
+    @Override
+    public String toString() {
+        return "Position{" +
+                "id='" + id + '\'' +
+//                ", lastSeen=" + lastSeen +
+                ", imei='" + imei + '\'' +
+                ", latitude=" + latitude +
+                ", longtitude=" + longtitude +
+                ", bearing=" + bearing +
+                ", speed=" + speed +
+                '}';
+    }
 }

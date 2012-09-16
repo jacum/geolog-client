@@ -6,6 +6,8 @@ import android.app.Service;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.net.ConnectivityManager;
+import android.net.NetworkInfo;
 import android.os.AsyncTask;
 import android.os.IBinder;
 import android.os.SystemClock;
@@ -118,6 +120,7 @@ public class GeologPositionUpdateService extends Service {
                 StatusLine statusLine = response.getStatusLine();
                 int statusCode = statusLine.getStatusCode();
                 if (statusCode == 200) {
+                    Log.i(PositionUpdateTask.class.toString(), "Got response from server");
                     HttpEntity entity = response.getEntity();
                     InputStream content = entity.getContent();
                     BufferedReader reader = new BufferedReader(new InputStreamReader(content));
@@ -137,28 +140,43 @@ public class GeologPositionUpdateService extends Service {
             return builder.toString();
         }
 
+        public boolean isOnline() {
+            ConnectivityManager cm =
+                    (ConnectivityManager) getSystemService(Context.CONNECTIVITY_SERVICE);
+            NetworkInfo netInfo = cm.getActiveNetworkInfo();
+            if (netInfo != null && netInfo.isConnectedOrConnecting()) {
+                return true;
+            }
+            return false;
+        }
+
         @Override
         protected Void doInBackground(Void... params) {
+            Log.i(PositionUpdateTask.class.toString(), "Position update initiated");
             errorMessage = null;
-            final String imei = getImei();
-            String response = readServerResponse("/imei/" + imei);
-            try {
-                JSONObject positionJson = new JSONObject(response);
-                position = new Position();
-                position.setId(positionJson.getString("_id"));
-                position.setImei(imei);
-                position.setLatitude(positionJson.getDouble("latitude"));
-                position.setLongtitude(positionJson.getDouble("longtitude"));
-                position.setBearing(positionJson.getInt("bearing"));
-                position.setSpeed(positionJson.getDouble("speed"));
+            if (!isOnline()) {
+                Log.i(PositionUpdateTask.class.toString(), "No connectivity at this moment, skipping refresh");
+            } else {
+                final String imei = getImei();
+                String response = readServerResponse("/imei/" + imei);
+                try {
+                    JSONObject positionJson = new JSONObject(response);
+                    position = new Position();
+                    position.setId(positionJson.getString("_id"));
+                    position.setImei(imei);
+                    position.setLatitude(positionJson.getDouble("latitude"));
+                    position.setLongtitude(positionJson.getDouble("longtitude"));
+                    position.setBearing(positionJson.getInt("bearing"));
+                    position.setSpeed(positionJson.getDouble("speed"));
 
-//                position.setLastSeen(positionJson.getDouble("last_seen")); // todo parse ISO date
+                    Log.i(PositionUpdateTask.class.toString(), "Parsed position: " + position);
+    //                position.setLastSeen(positionJson.getDouble("last_seen")); // todo parse ISO date
 
-            } catch (JSONException e) {
-                e.printStackTrace();
-                errorMessage = "Can't parse server response: " + e.getMessage();
+                } catch (JSONException e) {
+                    Log.e(PositionUpdateTask.class.toString(), "Can't parse server response", e);
+                    errorMessage = "Can't parse server response: " + e.getMessage();
+                }
             }
-
             return null;
         }
 

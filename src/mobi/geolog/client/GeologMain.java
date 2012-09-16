@@ -27,7 +27,6 @@ public class GeologMain extends MapActivity  {
         mapView.setBuiltInZoomControls(true);
 
 
-        updateFromPreferences();
         startRefreshPositionService();
 
     }
@@ -45,13 +44,6 @@ public class GeologMain extends MapActivity  {
         MapController mapControl = mapView.getController();
         mapControl.setZoom(16);
         mapControl.animateTo(po.getPoint());
-
-    }
-
-
-    private void updateFromPreferences() {
-        Context context = getApplicationContext();
-        SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(context);
 
     }
 
