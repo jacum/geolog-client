@@ -16,11 +16,16 @@ public class PositionOverlay extends Overlay {
 
     private final Position position;
     int rad = 5;
+    private GeoPoint point;
 
     public PositionOverlay(Position p) {
         this.position = p;
+        this.point = new GeoPoint(intGeoValue(position.getLatitude()), intGeoValue(position.getLongtitude()));
     }
 
+    public GeoPoint getPoint() {
+        return point;
+    }
 
     @Override
     public void draw(Canvas canvas, MapView mapView, boolean shadow) {
@@ -32,7 +37,6 @@ public class PositionOverlay extends Overlay {
         paint.setAntiAlias(true);
         paint.setFakeBoldText(true);
 
-        GeoPoint point = new GeoPoint(intGeoValue(position.getLatitude()), intGeoValue(position.getLongtitude()));
 
         if (!shadow) {
             Point myPoint = new Point();

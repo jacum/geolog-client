@@ -7,6 +7,7 @@ import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 import com.google.android.maps.MapActivity;
+import com.google.android.maps.MapController;
 import com.google.android.maps.MapView;
 
 public class GeologMain extends MapActivity  {
@@ -40,6 +41,11 @@ public class GeologMain extends MapActivity  {
         PositionOverlay po = new PositionOverlay(p);
         mapView.getOverlays().add(po);
         mapView.invalidate();
+
+        MapController mapControl = mapView.getController();
+        mapControl.setZoom(16);
+        mapControl.animateTo(po.getPoint());
+
     }
 
 
