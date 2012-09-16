@@ -6,6 +6,7 @@ import android.preference.PreferenceManager;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
+import com.google.android.maps.GeoPoint;
 import com.google.android.maps.MapActivity;
 import com.google.android.maps.MapController;
 import com.google.android.maps.MapView;
@@ -41,9 +42,12 @@ public class GeologMain extends MapActivity  {
         mapView.getOverlays().add(po);
         mapView.invalidate();
 
-        MapController mapControl = mapView.getController();
-        mapControl.setZoom(16);
-        mapControl.animateTo(po.getPoint());
+        final GeoPoint point = po.getPoint();
+        if (point != null) { // application crashes here with NPE... cause unknown but let the check be here
+            MapController mapControl = mapView.getController();
+            mapControl.setZoom(16);
+            mapControl.animateTo(point);
+        }
 
     }
 
