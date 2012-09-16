@@ -64,7 +64,8 @@ public class GeologPositionUpdateService extends Service {
             //
         }
 
-        if (updateFreq > 0) {
+        String imei = getImei();
+        if (updateFreq > 0 && imei != null && !"".equals(imei) ) {
             int alarmType = AlarmManager.ELAPSED_REALTIME_WAKEUP;
             long timeToRefresh = SystemClock.elapsedRealtime() + updateFreq * 60 * 1000;
             alarms.setRepeating(alarmType, timeToRefresh, updateFreq * 60 * 1000, alarmIntent);

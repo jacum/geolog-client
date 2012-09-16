@@ -32,7 +32,7 @@ public class PositionOverlay extends Overlay {
         paint.setAntiAlias(true);
         paint.setFakeBoldText(true);
 
-        GeoPoint point = new GeoPoint(intGeoValue(position.getLongtitude()), intGeoValue(position.getLatitude()));
+        GeoPoint point = new GeoPoint(intGeoValue(position.getLatitude()), intGeoValue(position.getLongtitude()));
 
         if (!shadow) {
             Point myPoint = new Point();
