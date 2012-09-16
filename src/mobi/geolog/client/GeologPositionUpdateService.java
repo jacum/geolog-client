@@ -129,13 +129,14 @@ public class GeologPositionUpdateService extends Service {
                         builder.append(line);
                     }
                 } else {
+                    builder.append("{'server_error' : '").append(statusCode).append("'}");
                     Log.e(PositionUpdateTask.class.toString(), "Error accessing server, code " + statusCode);
                     errorMessage = "Error accessing server, code " + statusCode;
                 }
-            } catch (ClientProtocolException e) {
-                e.printStackTrace();
-            } catch (IOException e) {
-                e.printStackTrace();
+            } catch (Exception e) {
+                builder.append("{'server_error' : '").append(e.getMessage()).append("'}");
+                Log.e(PositionUpdateTask.class.toString(), "Error accessing server", e);
+                errorMessage = "Error accessing server: " + e.getMessage();
             }
             return builder.toString();
         }
