@@ -1,15 +1,13 @@
 package mobi.geolog.client;
 
-import android.app.AlertDialog;
-import android.app.Notification;
-import android.app.NotificationManager;
-import android.app.PendingIntent;
+import android.app.*;
 import android.content.*;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
+import android.widget.Toast;
 import com.google.android.maps.GeoPoint;
 import com.google.android.maps.MapActivity;
 import com.google.android.maps.MapController;
@@ -86,29 +84,14 @@ public class GeologMain extends MapActivity {
     }
 
     @Override
-    protected android.app.Dialog onCreateDialog(int id, Bundle bundle) {
+    protected Dialog onCreateDialog(int id, Bundle bundle) {
         final CharSequence[] items = {"Red", "Green", "Blue"};
 
         AlertDialog.Builder builder = new AlertDialog.Builder(this);
         builder.setTitle("Pick a trip");
         builder.setItems(items, new DialogInterface.OnClickListener() {
             public void onClick(DialogInterface dialog, int item) {
-                NotificationManager notificationManager = (NotificationManager) getSystemService(NOTIFICATION_SERVICE);
-                // Create Notifcation
-                Notification notification = new Notification(R.drawable.ic_launcher,
-                        "A new trip selected.", System.currentTimeMillis());
-
-                // Cancel the notification after its selected
-                notification.flags |= Notification.FLAG_AUTO_CANCEL;
-
-                notification.number += 1;
-
-                // Specify the called Activity
-                Intent intent = new Intent(getApplicationContext(), GeologMain.class);
-
-                PendingIntent activity = PendingIntent.getActivity(getApplicationContext(), 0, intent, 0);
-                notification.setLatestEventInfo(getApplicationContext(), "This is the trip title", "This is the trip text", activity);
-                notificationManager.notify(0, notification);
+                Toast.makeText(getApplicationContext(), "Trip selected.", Toast.LENGTH_LONG).show();
             }
         });
         AlertDialog alert = builder.create();
