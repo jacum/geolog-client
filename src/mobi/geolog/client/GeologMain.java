@@ -1,17 +1,19 @@
 package mobi.geolog.client;
 
+import android.app.*;
 import android.content.*;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
+import android.widget.Toast;
 import com.google.android.maps.GeoPoint;
 import com.google.android.maps.MapActivity;
 import com.google.android.maps.MapController;
 import com.google.android.maps.MapView;
 
-public class GeologMain extends MapActivity  {
+public class GeologMain extends MapActivity {
 
     private static MapView mapView;
 
@@ -71,7 +73,7 @@ public class GeologMain extends MapActivity  {
                 startRefreshPositionService();
                 return true;
             case R.id.menu_trips:
-                // todo trips dialog
+                showDialog(0);
                 return true;
             case R.id.menu_preferences:
                 Intent i = new Intent("mobi.geolog.AppPreferenceActivity");
@@ -79,6 +81,21 @@ public class GeologMain extends MapActivity  {
                 return true;
         }
         return true;
+    }
+
+    @Override
+    protected Dialog onCreateDialog(int id, Bundle bundle) {
+        final CharSequence[] items = {"Red", "Green", "Blue"};
+
+        AlertDialog.Builder builder = new AlertDialog.Builder(this);
+        builder.setTitle("Pick a trip");
+        builder.setItems(items, new DialogInterface.OnClickListener() {
+            public void onClick(DialogInterface dialog, int item) {
+                Toast.makeText(getApplicationContext(), "Trip selected.", Toast.LENGTH_LONG).show();
+            }
+        });
+        AlertDialog alert = builder.create();
+        return alert;
     }
 
 }
